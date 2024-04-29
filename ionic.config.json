@@ -1,0 +1,7 @@
+{
+  "name": "appuni",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
