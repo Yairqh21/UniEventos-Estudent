@@ -1,0 +1,58 @@
+  <ion-content>
+    <div class="center-content">
+
+      <div class="form-container">
+
+        <app-logo/>
+
+        <form [formGroup]="form" (ngSubmit)="login()" (keyup.enter)="login()">
+
+          <H2 class="ion-text-start">Iniciar Sesión</H2>
+          <p class="tag-admin">Bienvenido a UniEventos Inicia Sesión para continuar</p>
+
+          <app-custom-input
+            [control]="form.controls.email"
+            icon="mail-outline" type="email"
+            [placeholder]="'Correo'"
+            [marginTop]="'25px'"
+            >
+          </app-custom-input>
+
+          <small class="validators" *ngIf="form.controls.email.errors && form.controls.email.touched">
+            <span *ngIf="form.controls.email.errors?.['required']">El correo es requerido</span>
+            <span *ngIf="form.controls.email.errors?.['email']">El correo no es válido</span>
+          </small>
+
+
+          <app-custom-input
+            [control]="form.controls.password"
+            icon="lock-closed-outline" type="password"
+            [placeholder]="'Contraseña'"
+            [marginTop]="'25px'">
+          </app-custom-input>
+
+          <small class="validators" *ngIf="form.controls.password.errors && form.controls.password.touched">
+            <span *ngIf="form.controls.password.errors?.['required']">La contraseña es requerida</span>
+            <span *ngIf="form.controls.password.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres</span>
+          </small>
+
+
+          <small class="ion-text-end fpw">
+            ¿Olvidaste tu contraseña?
+            <a routerLink="/auth/forgot-password"> Recupérala aquí</a>
+          </small>
+
+          <ion-button class="custom-button" expand="block" type="submit">
+            Iniciar Sesión
+          </ion-button>
+
+          <small class="register">
+            ¿No tienes una cuenta?
+            <a routerLink="/auth/sign-up"> Regístrate</a>
+          </small>
+
+        </form>
+      </div>
+    </div>
+  </ion-content>
+

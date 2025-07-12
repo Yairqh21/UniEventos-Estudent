@@ -1,0 +1,90 @@
+<ion-content class="profile-container">
+  <ion-header class="ion-no-border">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/main"></ion-back-button>
+      </ion-buttons>
+      <ion-title class="profile-title">Perfil</ion-title>
+      <ion-buttons slot="end">
+        <ion-button [routerLink]="['edit']">
+          <ion-icon name="create-outline" style="color: #457AB0;"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Contenido principal -->
+  <div class="profile-content" *ngIf="userInfo; else skeletonLoading">
+    <!-- Avatar -->
+    <ion-avatar class="profile-avatar">
+      <img [src]="userInfo.imgUrl || 'https://placehold.co/100x100'" alt="Foto de perfil" />
+    </ion-avatar>
+
+    <!-- Datos del usuario -->
+    <h2 class="profile-name">{{ userInfo.firstName }} {{ userInfo.lastName }}</h2>
+    <a href="mailto:{{ userInfo.email }}" class="profile-email">{{ userInfo.email }}</a>
+
+    <!-- Tarjeta de información -->
+    <ion-card class="profile-card">
+      <ion-card-content>
+        <div class="profile-info">
+          <strong>Carrera</strong>
+          <span>{{ userInfo.career || 'No especificado' }}</span>
+        </div>
+        <hr />
+        <div class="profile-info">
+          <strong>Teléfono</strong>
+          <span>{{ userInfo.phoneNumber || 'No especificado' }}</span>
+        </div>
+        <hr />
+        <div class="profile-info">
+          <strong>Ciclo</strong>
+          <span>{{ userInfo.academicCycle || 'No especificado' }}</span>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Acciones -->
+    <ion-card class="profile-actions">
+      <ion-card-content>
+        <div class="profile-action" (click)="changePassword()">
+          <span>Cambiar Contraseña</span>
+          <ion-icon name="lock-closed-outline"></ion-icon>
+        </div>
+        <hr />
+        <div class="profile-action" (click)="logout()">
+          <span>Cerrar Sesión</span>
+          <ion-icon name="log-out-outline"></ion-icon>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Skeleton Loading -->
+  <ng-template #skeletonLoading>
+    <div class="skeleton-profile">
+      <!-- Avatar -->
+      <div class="skeleton-avatar"></div>
+
+      <!-- Nombre y email -->
+      <div class="skeleton-name"></div>
+      <div class="skeleton-email"></div>
+
+      <!-- Tarjeta de información -->
+      <div class="skeleton-card">
+        <div class="skeleton-line"></div>
+        <div class="skeleton-divider"></div>
+        <div class="skeleton-line"></div>
+        <div class="skeleton-divider"></div>
+        <div class="skeleton-line"></div>
+      </div>
+
+      <!-- Acciones -->
+      <div class="skeleton-card">
+        <div class="skeleton-line"></div>
+        <div class="skeleton-divider"></div>
+        <div class="skeleton-line"></div>
+      </div>
+    </div>
+  </ng-template>
+</ion-content>

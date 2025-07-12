@@ -1,0 +1,133 @@
+<ion-content [fullscreen]="true" class="event-details-page">
+
+  <!-- Skeleton mientras carga -->
+  <ng-container *ngIf="!contentLoaded; else eventDetail">
+    <ion-skeleton-text animated style="width: 100%; height: 345px;"></ion-skeleton-text>
+
+    <div class="ion-padding">
+      <ion-skeleton-text animated style="width: 60%; height: 24px; margin-bottom: 12px;"></ion-skeleton-text>
+
+      <!-- Coordinador -->
+      <div class="event-coordinator">
+        <ion-thumbnail>
+          <ion-skeleton-text animated style="width: 100%; height: 100%; border-radius: 50%;"></ion-skeleton-text>
+        </ion-thumbnail>
+        <div class="coordinator-info">
+          <ion-skeleton-text animated style="width: 100px; height: 16px;"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 80px; height: 12px;"></ion-skeleton-text>
+        </div>
+      </div>
+
+      <!-- Info card -->
+      <div class="event-info-card">
+        <ion-skeleton-text animated style="width: 90%; height: 12px; margin-bottom: 10px;"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 80%; height: 12px;"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 100%; height: 60px; margin-top: 20px;"></ion-skeleton-text>
+      </div>
+
+      <ion-skeleton-text animated style="width: 100%; height: 50px; border-radius: 15px;"></ion-skeleton-text>
+    </div>
+  </ng-container>
+
+  <!-- contenido -->
+  <ng-template #eventDetail>
+    <div class="event-header">
+
+      <!-- Imagen de fondo con overlay -->
+      <div class="event-banner" [ngStyle]="{'background-image': 'url(' + event.imgUrl + ')'}">
+        <div class="banner-overlay"></div>
+
+        <!-- Encabezado superior -->
+        <div class="banner-header">
+          <ion-buttons slot="start">
+            <ion-back-button defaultHref="/main/events" class="back-button"></ion-back-button>
+          </ion-buttons>
+          <h1 class="banner-title">Detalle del Evento</h1>
+        </div>
+
+        <!-- Subinfo del evento -->
+        <div class="banner-info">
+          <span class="event-name">{{ event.eventName }}</span>
+          <span class="event-location-date">{{ event.location }} - {{ event.eventDateTime | date: 'dd/MM/yyyy' }}</span>
+        </div>
+      </div>
+
+      <!-- Contenido del evento -->
+      <div class="event-body ion-padding">
+        <h2 class="event-main-title">{{ event.eventName }}</h2>
+
+        <div class="event-meta">
+
+          <!-- Coordinador y botón -->
+          <div class="event-coordinator">
+            <ion-thumbnail>
+              <img [src]="user.imgUrl" />
+            </ion-thumbnail>
+            <div class="coordinator-info">
+              <h3 class="coordinator-name">{{ user.username }}</h3>
+              <p class="coordinator-role">Coordinador del Evento</p>
+            </div>
+            <ion-button class="join-button" routerLink="/main/events/report">Rendimiento</ion-button>
+          </div>
+
+          <!-- Detalles -->
+          <div class="event-info-card">
+            <div class="event-detail">
+              <ion-icon name="calendar-outline"></ion-icon>
+              <div>
+                <div class="label">Fecha</div>
+                <div class="value">{{ event.eventDateTime | date: 'dd MMM.'}}</div>
+              </div>
+            </div>
+
+            <div class="event-detail">
+              <ion-icon name="time-outline"></ion-icon>
+              <div>
+                <div class="label">Hora</div>
+                <div class="value">{{ event.eventDateTime | date: 'h:mm a' }}</div>
+              </div>
+            </div>
+
+            <div class="event-detail">
+              <ion-icon name="location-outline"></ion-icon>
+              <div>
+                <div class="label">Lugar</div>
+                <div class="value">
+                  {{ event.location }}
+                </div>
+              </div>
+            </div>
+
+            <!-- Descripción -->
+            <p class="event-description">
+              {{ event.description }}
+            </p>
+          </div>
+
+          <!-- Botón de tickets -->
+          <ion-button
+            expand="block"
+            class="tickets-button"
+            [disabled]="isRegistered"
+            (click)="saveEventRegistration(event.id)">
+            {{ isRegistered ? 'Ya inscrito' : 'Participar' }}
+          </ion-button>
+
+
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- modal/spinner -->
+  <info-modal
+    [show]="isLoading || displayModal"
+    [isLoading]="isLoading"
+    [icon]="'checkmark-circle-outline'"
+    [title]="'Participando'"
+    [subtitle]="'Gracias por participar'"
+    [additionalInfo]="ticketCode"
+    (close)="displayModal = false">
+  </info-modal>
+
+</ion-content>

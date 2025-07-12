@@ -1,0 +1,126 @@
+<app-header
+  buttonType="menu"
+  title="Inicio"
+  [showAvatar]="true"
+  [showNotifications]="true">
+</app-header>
+
+<ion-content [fullscreen]="true" class="content-container ion-padding">
+
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="lines"
+      refreshingSpinner="crescent"
+      pullingText="Tira para actualizar"
+      refreshingText="Actualizando...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div class="filter-bar">
+    <ion-searchbar
+      placeholder="Search events..."
+      [(ngModel)]="searchTerm"
+      (ionChange)="onSearchChange($event)">
+    </ion-searchbar>
+
+    <div class="filter-controls">
+      <ion-input
+        type="date"
+        placeholder="YYYY-MM-DD"
+        [(ngModel)]="selectedDate"
+        (ionChange)="onDateChange($event)">
+      </ion-input>
+
+      <ion-select
+        interface="popover"
+        placeholder="All"
+        [(ngModel)]="selectedEventType"
+        (ionChange)="onEventTypeChange($event)">
+        <ion-select-option *ngFor="let list of typeEvents" [value]="list.value">
+          {{ list.label }}
+        </ion-select-option>
+      </ion-select>
+    </div>
+  </div>
+
+  <!-- Skeleton loader -->
+  <ng-container *ngIf="!contentLoaded; else eventsLoaded">
+    <div class="skeleton-card" *ngFor="let item of [1,2,3,4]">
+      <ion-skeleton-text animated style="width: 100%; height: 150px; border-radius: 10px;"></ion-skeleton-text>
+      <div class="skeleton-content">
+        <ion-skeleton-text animated style="width: 60%; height: 16px;"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 40%; height: 12px;"></ion-skeleton-text>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <ion-skeleton-text animated style="width: 60px; height: 14px;"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 24px; height: 24px; border-radius: 50%;"></ion-skeleton-text>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Events list -->
+  <ng-template #eventsLoaded>
+    <div class="events-list">
+      <ion-card class="event-card" *ngFor="let event of filteredEvents">
+        <img [alt]="event.eventName" [src]="event.imgUrl" />
+        <ion-card-header>
+          <div class="card-tags">
+            <span class="tag">#{{ event.eventModality }}</span>
+            <span class="tag alt">#{{ event.eventType }}</span>
+          </div>
+          <ion-card-title>{{ event.eventName }}</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          <div class="event-details">
+            <p>
+              <ion-icon name="calendar-outline"></ion-icon>
+              {{ event.eventDateTime | date: 'dd MMM.' }} · {{ event.eventDateTime | date: 'h:mm a' }}
+            </p>
+            <p>
+              <ion-icon name="location-outline"></ion-icon>
+              {{ event.location }}
+            </p>
+          </div>
+
+          <div class="card-footer">
+            <ion-button fill="clear" class="ver-mas" routerLink="details/{{ event.id }}">Ver Mas</ion-button>
+            <ion-button
+              fill="clear"
+              class="heart-icon"
+              *ngIf="!isUserRegisteredToEvent(event.id)"
+              (click)="registerIfNotAlready(event.id)">
+              <ion-icon name="heart-outline" slot="icon-only"></ion-icon>
+            </ion-button>
+
+            <ion-button
+              fill="clear"
+              class="heart-filled"
+              *ngIf="isUserRegisteredToEvent(event.id)"
+              disabled>
+              <ion-icon name="heart" slot="icon-only"></ion-icon>
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Modal de confirmación -->
+    <info-modal
+      [show]="isLoading || displayModal"
+      [isLoading]="isLoading"
+      [icon]="'checkmark-circle-outline'"
+      [title]="'Participando'"
+      [subtitle]="'Gracias por participar'"
+      [additionalInfo]="ticketCode"
+      (close)="displayModal = false">
+    </info-modal>
+
+    <!-- Infinite scroll -->
+    <ion-infinite-scroll (ionInfinite)="loadNextPage($event)" [disabled]="infiniteDisabled">
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="Cargando más..." />
+    </ion-infinite-scroll>
+  </ng-template>
+</ion-content>

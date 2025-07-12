@@ -1,0 +1,22 @@
+<ion-list class="ion-list">
+  <ion-item
+    class="custom-input"
+    lines="none"
+    [ngStyle]="{'margin-top': marginTop, 'margin-bottom': marginBottom}"
+  >
+    <ion-select
+
+      toggleIcon="caret-down-sharp"
+      interface="popover"
+      [label]="label"
+      [placeholder]="placeholder"
+      [multiple]="multiple"
+      [value]="value"
+      (ionChange)="updateValue($event.target.value)"
+    >
+      <ion-select-option *ngFor="let option of options" [value]="option.value">
+        {{ option.label }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+</ion-list>

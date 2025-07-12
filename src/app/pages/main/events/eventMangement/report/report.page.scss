@@ -1,0 +1,37 @@
+ion-content {
+  //--background: #f5f9fc;
+  --background: #d6ecec;
+  padding: 16px;
+}
+
+.chart-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+}
+
+.chart-card {
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 4px 12px rgba(91, 169, 216, 0.15);
+  //width: calc(50% - 8px);
+
+  h3 {
+    color: #457AB0;
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  canvas {
+    width: 100% !important;
+    height: auto !important;
+  }
+}
+
+.full-width {
+  width: 100%;
+}

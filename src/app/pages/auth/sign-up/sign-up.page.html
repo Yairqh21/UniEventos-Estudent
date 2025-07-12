@@ -1,0 +1,79 @@
+<ion-content>
+
+  <div class="content-container">
+
+    <div class="top-left">
+      <ion-button routerLink="/auth/login" fill="clear" shape="round" style="--color: #457AB0;">
+        <ion-icon slot="start" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </div>
+
+
+    <div class="center-content">
+
+      <div class="form-container">
+
+      <app-logo/>
+
+      <form [formGroup]="form"  (ngSubmit)="registerUser()">
+
+        <H2 class="ion-text-start">Registrate</H2>
+        <p class="ion-text-start tag-register">Crea un cuenta para ser parte de UniEventos!</p>
+
+        <app-custom-input
+          class="inputs"
+          [control]="form.controls.username"
+          icon="person-outline"
+          type="text" id="username"
+          placeholder="Usuario"
+          [marginTop]="'25px'">
+        </app-custom-input>
+
+        <app-custom-input
+          class="inputs"
+          autocomplete="email"
+          [control]="form.controls.email"
+          icon="mail-outline"
+          type="text" id="email"
+          placeholder="Correo"
+          [marginTop]="'25px'">
+        </app-custom-input>
+
+        <small class="validators" *ngIf="form.controls.email.errors && form.controls.email.touched">
+          <span *ngIf="form.controls.email.errors?.['required']">El correo es requerido</span>
+          <span *ngIf="form.controls.email.errors?.['email']">El correo es requerido</span>
+        </small>
+
+
+        <app-custom-input
+          icon="lock-closed-outline"
+          [control]="form.controls.password"
+          type="password"
+          id="password"
+          placeholder="Contraseña"
+          [marginTop]="'25px'">
+        </app-custom-input>
+
+        <small class="validators" *ngIf="form.controls.password.errors && form.controls.password.touched">
+          <span *ngIf="form.controls.password.errors?.['required']">La contraseña es requerida</span>
+        </small>
+
+        <br>
+
+        <ion-button class="submit custom-button" expand="block"  type="submit">
+          Registrate
+        </ion-button>
+
+        <small class="log-in">
+          ¿Ya tienes una cuenta?
+          <a routerLink="/auth"> Inicia sesión</a>
+        </small>
+
+      </form>
+
+      </div>
+    </div>
+
+  </div>
+
+</ion-content>

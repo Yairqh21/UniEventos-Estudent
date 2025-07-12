@@ -1,0 +1,82 @@
+<ion-content class="survey-container ion-padding">
+  <div class="content-header">
+    <ion-buttons>
+      <ion-back-button defaultHref="/main/home" class="back-button"></ion-back-button>
+    </ion-buttons>
+    <h1 class="page-title">Encuesta</h1>
+  </div>
+  <!-- Skeleton Loading -->
+  <div class="skeleton-loading" *ngIf="!contentLoaded">
+    <div class="skeleton-header">
+      <ion-skeleton-text animated style="width: 40px; height: 40px;"></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 60%; height: 24px; margin-left: 16px;"></ion-skeleton-text>
+    </div>
+
+    <div class="skeleton-survey">
+      <ion-skeleton-text animated style="width: 100%; height: 180px; border-radius: 16px;"></ion-skeleton-text>
+    </div>
+
+    <div class="skeleton-questions" *ngFor="let item of [1,2,3]">
+      <ion-skeleton-text animated style="width: 70%; height: 20px; margin-bottom: 12px;"></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 100%; height: 80px; border-radius: 12px;"></ion-skeleton-text>
+      <div style="margin-top: 8px;">
+        <ion-skeleton-text animated style="width: 100%; height: 16px;"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 100%; height: 16px; margin-top: 8px;"></ion-skeleton-text>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenido real -->
+  <div class="content-real" *ngIf="contentLoaded">
+
+    <div class="survey-content" *ngIf="survey">
+      <form [formGroup]="surveyForm" (ngSubmit)="saveSurvey()">
+        <div class="survey-header">
+          <ion-icon name="checkmark-circle-outline" class="survey-icon"></ion-icon>
+          <h2 class="survey-title">Encuesta de Satisfacción</h2>
+          <p>{{ survey.title }}</p>
+          <small class="survey-subtitle">
+            Por favor, completa la encuesta para ayudarnos a mejorar.
+          </small>
+        </div>
+
+        <div *ngFor="let question of questions" class="survey-question">
+          <h3 class="question-text">{{ question.questionText }}</h3>
+
+          <!-- SHORT TYPE -->
+          <div class="compact-options" *ngIf="question.questionType === 'short'">
+            <label class="option-item" *ngFor="let option of question.options">
+              <input type="radio" [formControlName]="question.id" [value]="option" class="custom-radio" />
+              <span>{{ option }}</span>
+            </label>
+          </div>
+
+          <!-- MULTIPLE TYPE -->
+          <div class="compact-options" *ngIf="question.questionType === 'multiple'">
+            <label class="option-item" *ngFor="let option of question.options">
+              <input type="checkbox" (change)="onCheckboxChange($event, question.id)" [value]="option"
+                class="custom-checkbox" />
+              <span>{{ option }}</span>
+            </label>
+          </div>
+
+          <!-- TEXT TYPE -->
+          <div *ngIf="question.questionType === 'text'">
+            <textarea class="comments-textarea" [formControlName]="question.id" placeholder="Escribe tu respuesta..."
+              rows="4"></textarea>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+       <button
+        type="submit"
+        class="submit-button"
+        [disabled]="surveyForm.invalid || isSaving">
+        <span *ngIf="!isSaving">Enviar</span>
+        <ion-spinner *ngIf="isSaving" name="crescent" color="light"></ion-spinner>
+      </button>
+      </form>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,107 @@
+<ion-content>
+  <!-- HEADER -->
+  <ion-header class="ion-no-border">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/main/profile"></ion-back-button>
+      </ion-buttons>
+      <ion-title class="profile-title">Perfil</ion-title>
+      <ion-buttons slot="end">
+        <ion-button routerLink="/main/profile">
+          Cancelar
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- FORM CONTAINER -->
+  <div class="form-container">
+
+    <br>
+
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+
+      <!-- PROFILE IMAGE -->
+      <div class="profile-image-container">
+        <img *ngIf="selectedImage; else defaultIcon"
+            [src]="selectedImage"
+            class="profile-image"
+            alt="Foto de perfil"
+            (error)="handleImageError()">
+
+        <ng-template #defaultIcon>
+          <ion-icon class="profile-icon" name="person-circle-outline"></ion-icon>
+        </ng-template>
+
+        <div class="edit-image-button" (click)="onUpdateProfileImage()">
+          <ion-icon name="camera-outline"></ion-icon>
+        </div>
+      </div>
+
+      <br>
+
+      <!-- INPUTS -->
+      <ion-label>Nombre</ion-label>
+      <app-custom-input
+        [control]="profileForm.controls['firstName']"
+        type="text"
+        [placeholder]="'Ej: Luis Antony'"
+        [marginTop]="'5px'" [marginBottom]="'15px'"
+      />
+
+      <ion-label>Apellido</ion-label>
+      <app-custom-input
+        [control]="profileForm.controls['lastName']"
+        type="text"
+        [placeholder]="'Ej: Vega Castro'"
+        [marginTop]="'5px'" [marginBottom]="'15px'"
+      />
+
+      <ion-label>Correo</ion-label>
+      <app-custom-input
+        [control]="profileForm.controls['email']"
+        type="email"
+        [placeholder]="'Ej: 6C6lT@example.com'"
+        [marginTop]="'5px'" [marginBottom]="'15px'"
+      />
+
+      <ion-label>Teléfono</ion-label>
+      <app-custom-input
+        [control]="profileForm.controls['phoneNumber']"
+        type="tel"
+        [placeholder]="'Ej: 1234567890'"
+        [marginTop]="'5px'" [marginBottom]="'5px'"
+      />
+      <!-- <ion-note *ngIf="profileForm.controls['phoneNumber'].errors?.['required']" color="danger">
+        Teléfono requerido
+      </ion-note>
+      <ion-note *ngIf="profileForm.controls['phoneNumber'].errors?.['pattern']" color="danger">
+        Debe contener exactamente 10 dígitos
+      </ion-note> -->
+
+      <ion-label>Carrera</ion-label>
+      <app-custom-input-select
+        label="Carrera"
+        placeholder="Seleccionar"
+        [options]="careerList"
+        formControlName="career"
+        [marginBottom]="'15px'"
+      />
+
+      <ion-label>Ciclo</ion-label>
+      <app-custom-input-select
+        label="Ciclo Academico"
+        placeholder="Seleccionar"
+        [options]="academicCycleList"
+        formControlName="academicCycle"
+        [marginBottom]="'15px'"
+      />
+
+      <!-- SUBMIT BUTTON -->
+      <ion-button expand="block" type="submit" class="submit-button" (click)="onSubmit()">
+        Guardar
+      </ion-button>
+
+    </form>
+  </div>
+</ion-content>

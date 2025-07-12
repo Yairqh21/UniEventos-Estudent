@@ -1,0 +1,81 @@
+// Variables de color
+$primary-color: #457AB0;
+$secondary-color: #5BA9D8;
+$text-color: #4A5568;
+$white: #ffffff;
+
+// Estilos del menú
+ion-menu {
+  --ion-background-color: #{$white};
+  --ion-text-color: #{$text-color};
+
+  &::part(backdrop) {
+    background-color: rgba($secondary-color, 0.5);
+  }
+
+  &::part(container) {
+    border-radius: 0 20px 20px 0;
+    box-shadow: 4px 0px 16px rgba($secondary-color, 0.18);
+  }
+}
+
+// Encabezado del menú
+.menu-header {
+  //height: 72px;
+  background: $primary-color;
+  display: flex;
+  align-items: center;
+}
+
+.menu-toolbar {
+  --background: #{$primary-color};
+}
+
+.menu-title {
+  color: $white;
+  font-size: 28px;
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+// Elementos del menú
+.menu-item {
+  --ion-item-background: transparent;
+  --color: #{$text-color};
+
+  &.active {
+    --color: #{$secondary-color};
+    --ion-item-background: rgba($secondary-color, 0.1);
+
+    .menu-icon {
+      color: $secondary-color !important;
+    }
+  }
+}
+
+.menu-icon {
+  color: $text-color;
+}
+
+// Pie de página (logout)
+.menu-footer {
+  ion-toolbar {
+    --background: #{$white};
+    --border-width: 0;
+  }
+}
+
+.logout-item {
+  --ion-item-background: transparent;
+  --color: #{$text-color};
+  text-transform: none;
+
+  &:active {
+    --ion-item-background: rgba(245, 166, 166, 0.2);
+  }
+}
+
+.logout-icon {
+  --color:  rgba($secondary-color, 0.1);
+  --margin-right: 10px;
+}
