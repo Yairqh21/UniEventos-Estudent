@@ -34,4 +34,83 @@
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import "@ionic/angular/css/palettes/dark.system.css";
+//@import "@ionic/angular/css/palettes/dark.system.css";
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+button {
+  font-family: 'Poppins', sans-serif;
+}
+
+ion-app {
+  font-family: 'Poppins', sans-serif;
+}
+
+html.md {
+  --ion-default-font: 'Poppins', sans-serif;
+}
+
+// HR
+hr {
+  background: #d3d3d3;
+  margin: 22px 0;
+
+  &.hr-medium {
+    margin: 10px 0;
+  }
+}
+
+/**************Estilos globales**************/
+
+/*Alerta*/
+.alert-wrapper.sc-ion-alert-md {
+  border-radius: 16px;
+  background: white;
+  box-shadow: 0 10px 30px rgba(69, 122, 176, 0.15);
+}
+
+.alert-title.sc-ion-alert-md {
+  color: #457AB0;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.alert-button.sc-ion-alert-md {
+  border-radius: 6px;
+  background-color: #f8fafc;
+  color: #457AB0;
+  margin: 0 6px;
+  transition: all 0.2s ease;
+}
+
+.alert-button.sc-ion-alert-md:active {
+  transform: scale(0.98);
+}
+
+.alert-message.sc-ion-alert-md {
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+.custom-toast {
+  --background: #f0f9eb;
+  --color: #2d6a4f;
+  --border-radius: 20px;
+  border: 2px solid #95d5b2;
+  font-weight: 600;
+  padding: 12px 20px;
+  text-align: center;
+}

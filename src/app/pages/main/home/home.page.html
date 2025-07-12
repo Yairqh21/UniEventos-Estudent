@@ -1,0 +1,121 @@
+<app-header buttonType="menu" title="Inicio" [showAvatar]="true" [showNotifications]="true">
+</app-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content pullingIcon="lines" refreshingSpinner="crescent" pullingText="Tira para actualizar"
+      refreshingText="Actualizando...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div class="home-container ion-padding">
+
+    <!-- Skeleton para alerta -->
+    <div class="highlight-card skeleton-highlight" *ngIf="isLoading"></div>
+
+    <!-- Alerta real -->
+    <div class="highlight-card" *ngIf="!isLoading">
+      <div class="highlight-icon">
+        <ion-icon name="megaphone-outline"></ion-icon>
+      </div>
+      <div class="highlight-text">
+        <p>Tienes <strong>{{upcomingEvents.length}} Eventos</strong> para esta semana</p>
+      </div>
+    </div>
+
+    <!-- Título -->
+    <p class="section-title">Eventos de Hoy</p>
+
+    <!-- Skeleton eventos de hoy -->
+    <div class="today-card skeleton-today" *ngIf="isLoading"></div>
+
+    <!-- Tarjeta vacía -->
+    <div class="today-card empty-card" *ngIf="!isLoading && todaysEvents.length === 0" [ngStyle]="{
+        'background-image': 'linear-gradient(to right, rgba(91, 169, 216, 0.95) 30%, rgba(91, 169, 216, 0.6) 50%, rgba(91, 169, 216, 0.0) 100%), url(assets/img/logoApp.png)'
+      }">
+      <div class="today-info-container" routerLink="/main/events">
+        <h2 class="event-title">No hay eventos de hoy</h2>
+        <div class="event-meta">
+          <ion-icon name="time-outline"></ion-icon>
+          <span class="event-text">Sin horario disponible</span>
+        </div>
+        <div class="event-meta">
+          <ion-icon name="location-outline"></ion-icon>
+          <span class="event-text">Sin ubicación asignada</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Eventos del día -->
+    <div *ngIf="!isLoading">
+      <div class="today-card" *ngFor="let event of todaysEvents" [ngStyle]="{
+      'background-image': 'linear-gradient(to right, rgba(91, 169, 216, 0.95) 30%, rgba(91, 169, 216, 0.6) 50%, rgba(91, 169, 216, 0.0) 100%), url(' + event.eventImgUrl + ')'
+    }">
+        <div class="today-info-container" routerLink="details/{{ event.eventId }}">
+          <h2 class="event-title">{{ event.eventTitle }}</h2>
+          <div class="event-meta">
+            <ion-icon name="time-outline"></ion-icon>
+            <span class="event-text">{{ event.eventDateTime | date: 'h:mm a' }}</span>
+          </div>
+          <div class="event-meta">
+            <ion-icon name="location-outline"></ion-icon>
+            <span class="event-text">{{ event.eventLocation }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Título -->
+    <p class="section-title">Próximos Eventos</p>
+
+    <!-- Skeleton de próximos eventos -->
+    <div *ngIf="isLoading">
+      <div class="skeleton-container">
+        <div class="skeleton-item" *ngFor="let item of [1,2,3,4]">
+          <div class="skeleton-avatar"></div>
+          <div class="skeleton-content">
+            <div class="skeleton-line" style="width: 70%"></div>
+            <div class="skeleton-line" style="width: 90%"></div>
+            <div class="skeleton-line" style="width: 60%"></div>
+            <div class="skeleton-line" style="width: 50%"></div>
+          </div>
+          <div class="skeleton-button"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- No hay eventos -->
+    <div *ngIf="!isLoading && upcomingEvents.length === 0" class="no-events-card">
+      <ion-card routerLink="/main/events">
+        <ion-card-header>
+          <ion-card-title>No hay eventos próximos</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          Cuando haya nuevos eventos, aparecerán aquí.
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Lista real de eventos -->
+    <div class="events-container scrollable" *ngIf="!isLoading && upcomingEvents.length > 0">
+      <div class="events-list" *ngFor="let event of upcomingEvents">
+        <div class="event-card" [routerLink]="['/main/home/details', event.eventId]"
+          [queryParams]="{ eventRegistrations: event.id, ticketCode: event.ticketCode }">
+          <div class="event-date">
+            <span class="event-day">{{event.eventDateTime | date: 'd'}}</span>
+            <span class="event-weekday">{{event.eventDateTime | date: 'EEE'}}</span>
+          </div>
+          <div class="event-details">
+            <div class="event-time">
+              <ion-icon name="time-outline"></ion-icon> {{event.eventDateTime | date: 'h:mm a'}}
+            </div>
+            <h3 class="event-title">{{event.eventTitle}}</h3>
+            <span class="event-description">{{event.eventLocation}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</ion-content>

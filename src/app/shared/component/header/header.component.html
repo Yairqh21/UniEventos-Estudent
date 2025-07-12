@@ -1,0 +1,105 @@
+<ion-header class="ion-no-border custom-header">
+  <ion-toolbar class="custom-toolbar">
+    <ion-buttons slot="start">
+      <ng-container *ngIf="buttonType === 'menu'">
+        <ion-menu-button class="header-icon"></ion-menu-button>
+      </ng-container>
+      <ng-container *ngIf="buttonType === 'back'">
+        <ion-button (click)="goBack()">
+          <ion-icon slot="icon-only" name="chevron-back-outline" class="header-icon"></ion-icon>
+        </ion-button>
+      </ng-container>
+    </ion-buttons>
+
+    <ion-title class="header header-container">
+      <strong>{{ title }}</strong>
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <!-- Botón de notificaciones -->
+      <ion-buttons
+        *ngIf="showNotifications"
+        (click)="setOpen(true)"
+        class="notification-button">
+        <div class="campaign">
+          <ion-icon name="notifications-outline"></ion-icon>
+          <div  class="notification-badge">{{unreadCount}}</div>
+        </div>
+      </ion-buttons>
+
+      <ng-container *ngIf="showAvatar">
+        <ion-avatar class="avatar-icon" (click)="navigateToProfile()">
+          <img *ngIf="userImage; else showAvatarIcon" [src]="userImage" alt="Avatar">
+          <ng-template #showAvatarIcon>
+            <ion-icon name="person" class="avatar-icon"></ion-icon>
+          </ng-template>
+        </ion-avatar>
+      </ng-container>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<!-- Modal de notificaciones -->
+<ion-modal [isOpen]="isModalOpen" [backdropDismiss]="true">
+  <ng-template>
+    <ion-header class="custom-header">
+      <ion-toolbar class="custom-toolbar">
+        <ion-title class="header-modal">
+          <ion-icon name="notifications" class="mr-2"></ion-icon>
+          Notificaciones
+        </ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="setOpen(false)" fill="clear">
+            <ion-icon name="close" slot="icon-only"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding notification-content">
+      <div *ngIf="loadingNotifications" class="loading-container">
+        <ion-spinner name="crescent"></ion-spinner>
+        <p>Cargando notificaciones...</p>
+      </div>
+
+      <ion-list *ngIf="!loadingNotifications">
+        <ng-container *ngIf="notifications.length > 0; else noNotifications">
+          <ion-item-sliding *ngFor="let notification of notifications">
+            <ion-item
+              [class.unread]="!notification.read"
+              (click)="notification.type === 'survey' ? openToSurvey(notification.eventId) : null"
+              detail="false">
+              <ion-icon
+                slot="start"
+                [name]="getNotificationIcon(notification.type)"
+                [color]="getNotificationColor(notification.type)">
+              </ion-icon>
+              <ion-label class="ion-text-wrap">
+                <h3>{{notification.eventName}}</h3>
+                <p *ngIf="notification.type === 'survey'">
+                  Este evento ha finalizado. Por favor completa la encuesta de satisfacción.
+                </p>
+                <p>
+                  <ion-chip [color]="getNotificationColor(notification.type)" outline>
+                    <ion-label>{{notification.eventType}}</ion-label>
+                  </ion-chip>
+                  <ion-note>{{notification.date | date:'short'}}</ion-note>
+                </p>
+              </ion-label>
+              <ion-badge *ngIf="!notification.read" color="danger" slot="end">Nuevo</ion-badge>
+            </ion-item>
+          </ion-item-sliding>
+        </ng-container>
+
+        <ng-template #noNotifications>
+          <div class="no-notifications-container">
+            <ion-icon name="notifications-off-outline" size="large"></ion-icon>
+            <ion-text color="medium">
+              <p>No tienes notificaciones nuevas</p>
+            </ion-text>
+          </div>
+        </ng-template>
+      </ion-list>
+    </ion-content>
+  </ng-template>
+</ion-modal>

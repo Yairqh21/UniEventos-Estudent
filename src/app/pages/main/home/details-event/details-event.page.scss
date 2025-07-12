@@ -1,0 +1,177 @@
+.event-details-content {
+  --background: #ffffff;
+
+  .content-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
+
+    .back-button {
+      color: #5BA9D8;
+    }
+
+    .page-title {
+      margin: 0;
+      font-size: 24px;
+      font-weight: bold;
+      color: #5BA9D8;
+      margin-left: 16px;
+    }
+  }
+
+  .event-content {
+    background: #ffffff;
+
+    .event-title {
+      font-size: 20px;
+      font-weight: bold;
+      color: #457AB0;
+      margin-bottom: 16px;
+    }
+
+    .event-description {
+      font-size: 16px;
+      color: #5BA9D8;
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    .divider {
+      height: 1px;
+      background-color: #e0e0e0;
+      margin: 20px 0;
+    }
+
+    .event-details {
+      margin: 20px 0;
+
+      .event-details-card {
+        border-radius: 15px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        margin: 0;
+        overflow: hidden;
+
+        .event-image {
+          width: 100%;
+          height: 180px;
+          object-fit: cover;
+          display: block;
+        }
+
+        ion-card-content {
+          padding: 16px;
+
+          .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px 12px;
+
+            .detail-item {
+              display: flex;
+              align-items: center;
+
+              .detail-icon {
+                color: #5BA9D8;
+                font-size: 20px;
+                margin-right: 8px;
+                min-width: 20px;
+              }
+
+              .detail-text {
+                .detail-label {
+                  font-size: 13px;
+                  color: #5BA9D8;
+                  line-height: 1.2;
+                }
+
+                .detail-value {
+                  font-size: 15px;
+                  font-weight: bold;
+                  color: #457AB0;
+                  line-height: 1.4;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    /* Botón Cancelar */
+    .cancel-button {
+      --background: #5BA9D8;
+      --background-activated: #457AB0;
+      --border-radius: 15px;
+      height: 50px;
+      text-transform: none;
+      margin-top: 16px;
+      font-weight: bold;
+      --box-shadow: none;
+    }
+
+    .mark-attendance-button {
+      --background: #457AB0;
+      --background-activated: #5BA9D8;
+      --border-radius: 15px;
+      height: 50px;
+      text-transform: none;
+      margin-top: 16px;
+      font-weight: bold;
+      --box-shadow: none;
+    }
+
+    .attendance-marked-button {
+      --background: #a0a0a0;
+      --background-opacity: 1;
+      --border-radius: 15px;
+      height: 50px;
+      text-transform: none;
+      margin-top: 16px;
+      font-weight: bold;
+      --box-shadow: none;
+      cursor: default;
+
+      &:disabled {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.4;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.skeleton-title,
+.skeleton-text,
+.skeleton-card {
+  background: #e0e0e0;
+  border-radius: 8px;
+  animation: pulse 1.5s infinite;
+  margin-bottom: 16px;
+}
+
+.skeleton-title {
+  height: 24px;
+  width: 60%;
+}
+
+.skeleton-text {
+  height: 16px;
+  width: 90%;
+}
+
+.skeleton-card {
+  height: 240px;
+  border-radius: 15px;
+}

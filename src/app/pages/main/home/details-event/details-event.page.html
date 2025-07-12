@@ -1,0 +1,130 @@
+<ion-content [fullscreen]="true" class="event-details-content ion-padding">
+
+  <!-- Header Skeleton -->
+  <div class="content-header" *ngIf="isLoading">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/main/home" class="back-button"></ion-back-button>
+    </ion-buttons>
+    <div class="skeleton-title page-title" style="width: 200px; height: 28px;"></div>
+  </div>
+
+  <!-- Main Content Skeleton -->
+  <div class="event-content" *ngIf="isLoading">
+
+    <div class="skeleton-title" style="width: 70%; height: 24px; margin-bottom: 16px;"></div>
+    <div class="skeleton-text" style="width: 100%; height: 16px; margin-bottom: 8px;"></div>
+    <div class="skeleton-text" style="width: 90%; height: 16px; margin-bottom: 8px;"></div>
+    <div class="skeleton-text" style="width: 80%; height: 16px; margin-bottom: 24px;"></div>
+    <div class="divider" style="background-color: #e0e0e0; height: 1px; margin: 20px 0;"></div>
+    <div class="skeleton-card" style="height: 180px; border-radius: 15px 15px 0 0;"></div>
+
+    <!-- Card Content Skeletons -->
+    <div style="padding: 16px;">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px 12px;">
+        <div *ngFor="let item of [1,2,3,4]">
+          <div style="display: flex; align-items: center;">
+            <div class="skeleton-text" style="width: 20px; height: 20px; margin-right: 8px;"></div>
+            <div>
+              <div class="skeleton-text" style="width: 60px; height: 13px; margin-bottom: 4px;"></div>
+              <div class="skeleton-text" style="width: 80px; height: 15px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="skeleton-text" style="width: 100%; height: 50px; border-radius: 15px; margin-top: 16px;"></div>
+  </div>
+
+  <!-- Header -->
+  <div class="content-header" *ngIf="!isLoading">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/main/home" class="back-button"></ion-back-button>
+    </ion-buttons>
+    <h1 class="page-title">Detalles del Evento</h1>
+  </div>
+
+  <!-- Event Content -->
+  <div class="event-content" *ngIf="!isLoading">
+    <!-- Event Title -->
+    <h2 class="event-title">{{event.eventName}}</h2>
+    <p class="event-description">
+      {{event.description}}
+    </p>
+
+    <!-- Divider -->
+    <div class="divider"></div>
+
+    <!-- Event Details -->
+    <div class="event-details">
+      <ion-card class="event-details-card">
+        <img [src]="event.imgUrl" [alt]="event.eventName" class="event-image" />
+
+        <ion-card-content>
+          <div class="details-grid">
+            <!-- Date -->
+            <div class="detail-item">
+              <ion-icon name="calendar-outline" class="detail-icon"></ion-icon>
+              <div class="detail-text">
+                <div class="detail-label">Fecha</div>
+                <div class="detail-value">{{event.eventDateTime | date: 'dd/MM/yyyy'}}</div>
+              </div>
+            </div>
+
+            <!-- Time -->
+            <div class="detail-item">
+              <ion-icon name="time-outline" class="detail-icon"></ion-icon>
+              <div class="detail-text">
+                <div class="detail-label">Hora</div>
+                <div class="detail-value">{{event.eventDateTime | date: 'h:mm a'}}</div>
+              </div>
+            </div>
+
+            <!-- Place -->
+            <div class="detail-item">
+              <ion-icon name="location-outline" class="detail-icon"></ion-icon>
+              <div class="detail-text">
+                <div class="detail-label">Lugar</div>
+                <div class="detail-value">{{event.location}}</div>
+              </div>
+            </div>
+
+            <!-- Ticket -->
+            <div class="detail-item">
+              <ion-icon name="ticket-outline" class="detail-icon"></ion-icon>
+              <div class="detail-text">
+                <div class="detail-label">N° Ticket</div>
+                <div class="detail-value">{{ticketCode}}</div>
+              </div>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- Botón Marcar Asistencia -->
+    <ion-button *ngIf="showMarkAttendanceButton"
+                expand="block"
+                (click)="markAttendance()"
+                class="mark-attendance-button">
+      Marcar Asistencia
+    </ion-button>
+
+    <!-- Botón Asistencia Marcada -->
+    <ion-button *ngIf="showAttendanceMarkedButton"
+                expand="block"
+                disabled="true"
+                class="attendance-marked-button">
+      Asistencia Marcada
+    </ion-button>
+
+    <!-- Botón Cancelar-->
+    <ion-button *ngIf="showCancelButton"
+                expand="block"
+                (click)="showCancellationConfirmation()"
+                class="cancel-button">
+      Cancelar Participación
+    </ion-button>
+
+  </div>
+</ion-content>

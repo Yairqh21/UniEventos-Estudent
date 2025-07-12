@@ -1,0 +1,74 @@
+/* Centra el contenido principal */
+.content-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+}
+
+.top-left {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+}
+
+.center-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  padding: 15px;
+}
+
+.form-container {
+  margin: 0 22px;
+}
+
+.validators {
+  color: #FF6961;
+}
+
+/*Estilos a los botones*/
+
+.custom-button {
+  height: 50px;
+  --border-radius: 15px;
+  --background: #5BA9D8;
+  color: white;
+  text-transform: none;
+  margin-top: 25px;
+}
+
+.log-in{
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  color: #B3B3B3;
+  margin-top: 50px;
+}
+
+a{
+  color: #457AB0;
+  text-decoration: none;
+  margin-left: 5px;
+}
+
+p {
+  color: #457AB0a6;
+  font-weight: 500;
+}
+
+h2 {
+  color: #457AB0;
+  font-weight: 600;
+}
+
+.tag-register {
+  color: #5BA9D8;
+  font-size: 11px;
+  font-weight: 500;
+  margin-top: -12px;
+}

@@ -1,0 +1,91 @@
+<app-header buttonType="menu" title="Historial" [showAvatar]="true" [showNotifications]="true">
+</app-header>
+
+<ion-content class="history-content ion-padding">
+
+
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Contenido principal con skeleton -->
+  <ng-container *ngIf="!isLoading; else loadingState">
+    <div class="history-header" *ngIf="groupedEvents.length > 0">
+      <h1>Historial de Participación</h1>
+      <ion-button fill="clear" color="primary" class="pdf-button" (click)="generateEventHistoryPDF()">
+        <ion-icon name="download-outline" slot="start"></ion-icon>
+        PDF
+      </ion-button>
+    </div>
+
+    <!-- Estado vacío -->
+    <div *ngIf="groupedEvents.length === 0" class="empty-state">
+      <ion-icon name="calendar-outline" class="empty-icon"></ion-icon>
+      <h3>No hay eventos en tu historial</h3>
+      <p>Participa en eventos para verlos aquí</p>
+    </div>
+
+    <div *ngFor="let group of groupedEvents" class="event-group">
+      <p>{{group.title}}</p>
+      <div class="event-list">
+        <div class="event-item" *ngFor="let event of group.events">
+          <div class="event-icon">
+            <ion-icon [name]="getEventIcon(event.category)" color="primary"></ion-icon>
+          </div>
+
+          <div class="event-info">
+            <div class="event-meta">
+              <div class="event-date">
+                <ion-icon name="time-outline"></ion-icon>
+                <span>
+                  Registrado: {{ event.registrationDate | date:'dd/MM/yyyy' }} a las
+                  {{ event.registrationDate | date:'shortTime' }}
+                </span>
+              </div>
+            </div>
+
+            <h3 class="event-name">
+              <ion-icon name="bookmark-outline" color="primary"></ion-icon>
+              {{ event.eventName }}
+            </h3>
+
+            <div class="event-status">
+              <ion-chip [color]="event.colorStatus" class="status-chip">
+                <ion-icon [name]="getStatusIcon(event.status)"></ion-icon>
+                <ion-label>Estado: {{ event.status }}</ion-label>
+              </ion-chip>
+
+              <ion-chip [color]="event.colorAttendance" class="status-chip">
+                <ion-icon [name]="getAttendanceIcon(event.userAttendance)"></ion-icon>
+                <ion-label>{{ event.userAttendance }}</ion-label>
+              </ion-chip>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+
+  <!-- Estado de carga (skeleton) -->
+  <ng-template #loadingState>
+    <div class="event-list">
+      <!-- Skeleton para el encabezado -->
+      <div class="skeleton-header"></div>
+
+      <!-- Skeleton para items de eventos (3 elementos) -->
+      <div class="skeleton-item" *ngFor="let item of [1, 2, 3]">
+        <div class="skeleton-icon"></div>
+        <div class="skeleton-content">
+          <div class="skeleton-line short"></div>
+          <div class="skeleton-line medium"></div>
+          <div class="skeleton-line long"></div>
+          <div class="skeleton-chips">
+            <div class="skeleton-chip"></div>
+            <div class="skeleton-chip"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</ion-content>

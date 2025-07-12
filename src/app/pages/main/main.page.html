@@ -1,0 +1,36 @@
+<ion-menu contentId="menu-content" menuId="menu-content" side="start" type="overlay">
+  <ion-header class="menu-header">
+    <ion-toolbar class="menu-toolbar">
+      <ion-title class="menu-title">UniEventos</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="menu-content">
+    <ion-menu-toggle autohide="false" *ngFor="let item of menuItems">
+      <ion-item
+        class="menu-item"
+        [ngClass]="{'active': currentPath === item.url}"
+        [routerLink]="item.url"
+        routerDirection="root"
+        detail="false">
+        <ion-icon slot="start" [name]="item.icon" class="menu-icon"></ion-icon>
+        <ion-label>{{ item.title }}</ion-label>
+      </ion-item>
+    </ion-menu-toggle>
+  </ion-content>
+
+  <ion-footer>
+    <ion-toolbar>
+      <ion-button
+        expand="block"
+        fill="clear"
+        (click)="logout()"
+        class="logout-item">
+        <ion-icon slot="start" name="power" class="logout-icon"></ion-icon>
+        <ion-label class="logout-label">Cerrar Sesión</ion-label>
+      </ion-button>
+    </ion-toolbar>
+  </ion-footer>
+</ion-menu>
+
+<ion-router-outlet id="menu-content" main></ion-router-outlet>
